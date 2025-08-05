@@ -60,7 +60,7 @@ h1 {
     background-color: #d2b48c; /* Wood color */
     border: 2px solid #8c6d46;
     border-radius: 8px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Adjusted margin */
     position: relative;
 }
 
@@ -72,7 +72,6 @@ h1 {
     position: relative;
 }
 
-/* A line representing the string */
 .string::before {
     content: '';
     position: absolute;
@@ -97,9 +96,9 @@ h1 {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    user-select: none; /* Prevents text selection on click */
+    user-select: none;
     z-index: 2;
-    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.2s, transform 0.2s, border-color 0.2s;
 }
 
 .note-circle.open-string {
@@ -112,11 +111,32 @@ h1 {
     transform: scale(1.1);
 }
 
+/* New feedback styles */
+.note-circle.correct {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border-color: #388E3C;
+}
+.note-circle.incorrect {
+    background-color: #F44336; /* Red */
+    color: white;
+    border-color: #D32F2F;
+}
+
+/* New Message Area Style */
+#message-area {
+    min-height: 24px; /* Reserve space */
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
 /* Controls */
 #controls {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
 }
 
 .btn {
