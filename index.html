@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violin Ear Trainer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div id="start-screen" class="screen active">
+            <h1>Violin Ear Trainer</h1>
+            <p class="instructions">
+                Welcome! This app will help you learn to distinguish violin notes in the first position by ear.
+                <br><br>
+                Click 'Start Practice', listen to the random note, and click on the note you think it is on the fingerboard.
+            </p>
+            <div id="high-scores">
+                <h2>Best Scores</h2>
+                <p>No scores recorded yet.</p>
+            </div>
+            <button id="start-btn" class="btn">Start Practice</button>
+        </div>
+
+        <div id="practice-screen" class="screen">
+            <h1>Violin Ear Trainer</h1>
+            <div id="score-display">Score: 0 / 0</div>
+            
+            <div class="practice-area">
+                <div id="fingerboard">
+                    </div>
+                <div id="controls">
+                    <button id="play-random-note-btn" class="btn">Play Random Note</button>
+                    <button id="play-reference-note-btn" class="btn">Play Reference G (G3)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
