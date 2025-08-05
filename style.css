@@ -1,0 +1,135 @@
+/* General Styling */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.app-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    color: #1a237e;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Start Screen */
+#high-scores {
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #e8eaf6;
+    border-radius: 8px;
+}
+
+/* Practice Screen */
+.practice-area {
+    margin-top: 2rem;
+}
+
+#score-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #3f51b5;
+    margin-bottom: 1rem;
+}
+
+/* Vertical Fingerboard */
+#fingerboard {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+    background-color: #d2b48c; /* Wood color */
+    border: 2px solid #8c6d46;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.string {
+    display: flex;
+    flex-direction: column; /* Stacks notes vertically */
+    align-items: center;
+    width: 20%;
+    position: relative;
+}
+
+/* A line representing the string */
+.string::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background-color: #7f8c8d;
+    z-index: 1;
+}
+
+.note-circle {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid #555;
+    border-radius: 50%;
+    margin: 15px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    user-select: none; /* Prevents text selection on click */
+    z-index: 2;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.note-circle.open-string {
+    border-style: dashed;
+    border-color: #000;
+}
+
+.note-circle:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.1);
+}
+
+/* Controls */
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #3f51b5;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #303f9f;
+}
