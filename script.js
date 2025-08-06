@@ -77,11 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startNewRound() {
+        // Reset fingerboard colors - This is the corrected line.
+        document.querySelectorAll('.note-circle').forEach(c => {
+            c.classList.remove('correct', 'incorrect');
+        });
+
         awaitingAnswer = true;
         messageArea.textContent = 'Listen for the note...';
-        
-        // Reset fingerboard colors
-        document.querySelectorAll('.note-circle').forEach(c => c.className = c.dataset.note.includes('3') && notes.G.indexOf(c.dataset.note) === 0 ? 'note-circle open-string' : 'note-circle');
         
         // Pick and play a random note
         currentRandomNote = allNotes[Math.floor(Math.random() * allNotes.length)];
@@ -136,15 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
         initAudioContext();
         startScreen.classList.remove('active');
         practiceScreen.classList.add('active');
-        playRandomNoteBtn.textContent = 'Play Random Note'; // Reset text on first start
+        playRandomNoteBtn.textContent = 'Play Random Note';
     });
 
     playRandomNoteBtn.addEventListener('click', () => {
         if (awaitingAnswer) {
-            // Replay the current note if user is still guessing
             playTone(currentRandomNote, 0.8);
         } else {
-            // Start a new round
             startNewRound();
         }
     });
