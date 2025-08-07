@@ -20,6 +20,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    padding: 1rem 0;
 }
 
 /* --- Main App Container (Card) --- */
@@ -117,21 +118,24 @@ h1 {
     color: var(--secondary-text-color);
 }
 
-/* --- Fingerboard --- */
+/* --- NEW CSS GRID FINGERBOARD --- */
 #fingerboard {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem 0;
-    background-color: #e0e0e0;
-    border-radius: 8px;
+    display: grid;
+    /* 4 string columns, 1 label column */
+    grid-template-columns: repeat(4, 1fr) auto;
+    gap: 8px; /* Gap between columns */
+    align-items: center;
     margin-bottom: 24px;
+    background-color: #e0e0e0;
+    padding: 16px;
+    border-radius: 8px;
 }
 
-.string {
+.note-cell {
+    height: 44px; /* Ensure all cells have same height */
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 20%;
 }
 
 .note-circle {
@@ -140,18 +144,18 @@ h1 {
     background-color: #fff;
     border: 2px solid #bdbdbd;
     border-radius: 50%;
-    margin: 12px 0;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-weight: 500;
     user-select: none;
     transition: all 0.2s ease-in-out;
+    display: flex; /* Kept for centering text inside */
+    justify-content: center;
+    align-items: center;
 }
 
 .note-circle.open-string {
     background-color: transparent;
+    border-style: dashed;
 }
 
 .note-circle:not(.review-mode):hover {
@@ -169,6 +173,14 @@ h1 {
     background-color: var(--incorrect-color);
     color: white;
     border-color: var(--incorrect-color);
+}
+
+.finger-label {
+    text-align: left;
+    font-size: 0.9em;
+    color: var(--secondary-text-color);
+    padding-left: 16px;
+    white-space: nowrap;
 }
 
 /* --- Buttons --- */
