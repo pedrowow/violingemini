@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadAudioFile(note) {
         try {
-            // Converts 'C#5' into 'cs5' for the filename 'violin-cs5.wav'
             const filename = `violin-${note.toLowerCase().replace('#', 's')}.wav`;
             const response = await fetch(filename);
             const arrayBuffer = await response.arrayBuffer();
@@ -53,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageArea.textContent = 'Loading audio files...';
         const loadPromises = allNotes.map(loadAudioFile);
         Promise.all(loadPromises).then(() => {
-            messageArea.textContent = 'Audio loaded. Click "Play Random Note" to start.';
+            messageArea.textContent = 'Audio loaded. Click "Play Note" to start.';
         });
     }
 
@@ -119,17 +118,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (selectedNote === currentRandomNote) {
             correctAnswers++;
-            messageArea.style.color = '#388E3C';
+            messageArea.style.color = 'var(--correct-color)';
             messageArea.textContent = 'Correct!';
             selectedCircle.classList.add('correct', 'review-mode');
         } else {
-            messageArea.style.color = '#D32F2F';
+            messageArea.style.color = 'var(--incorrect-color)';
             messageArea.textContent = `Incorrect. The correct note was ${currentRandomNote}.`;
             selectedCircle.classList.add('incorrect', 'review-mode');
             correctCircle.classList.add('correct', 'review-mode');
         }
 
-        scoreDisplay.textContent = `Score: ${correctAnswers} / ${totalPlayed}`;
+        scoreDisplay.textContent = `${correctAnswers} / ${totalPlayed}`;
         continueBtn.style.display = 'inline-block';
         stopBtn.style.display = 'inline-block';
     }
@@ -146,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const list = document.createElement('ul');
         highScores.forEach(record => {
             const item = document.createElement('li');
-            const percentage = record.score.toFixed(1);
+            const percentage = record.score.toFixed(0);
             const date = new Date(record.date).toLocaleDateString('en-GB');
             item.innerHTML = `
                 <span class="score-percent">${percentage}% (${record.correct}/${record.total})</span>
@@ -156,8 +155,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         scoreList.appendChild(list);
     }
+    
+    // --- Material Design Ripple Effect for Buttons ---
+    function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+        circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+        circle.classList.add("ripple");
+
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+            ripple.remove();
+        }
+        button.appendChild(circle);
+    }
 
     // --- Event Listeners ---
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', createRipple);
+    });
+
     startBtn.addEventListener('click', () => {
         initAudioContext();
         loadAllAudio();
@@ -182,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (awaitingAnswer) {
                 handleAnswer(note);
             } else if (circle.classList.contains('review-mode')) {
-                // Allow replaying of answered notes
                 playSound(note);
             }
         }
@@ -191,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
     continueBtn.addEventListener('click', startNewRound);
 
     stopBtn.addEventListener('click', () => {
-        // Calculate and save score
         const score = totalPlayed > 0 ? (correctAnswers / totalPlayed) * 100 : 0;
         const scoreRecord = { score, correct: correctAnswers, total: totalPlayed, date: new Date().toISOString() };
         
@@ -199,17 +219,16 @@ document.addEventListener('DOMContentLoaded', () => {
         highScores.push(scoreRecord);
         highScores.sort((a, b) => {
             if (b.score === a.score) {
-                return b.total - a.total; // Tie-breaker: more questions is better
+                return b.total - a.total;
             }
             return b.score - a.score;
         });
         localStorage.setItem('violinHighScores', JSON.stringify(highScores.slice(0, 3)));
 
-        // Reset game state and return to start screen
         correctAnswers = 0;
         totalPlayed = 0;
         currentRandomNote = null;
-        scoreDisplay.textContent = `Score: 0 / 0`;
+        scoreDisplay.textContent = `0 / 0`;
         displayHighScores();
         practiceScreen.classList.remove('active');
         startScreen.classList.add('active');
