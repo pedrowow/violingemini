@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Violin Ear Trainer</title>
+    
+    <link rel="icon" href="violin-icon.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="theme-color" content="#3f51b5">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
+    <div class="app-container card">
         <div id="start-screen" class="screen active">
+            <img src="violin-icon.png" alt="Violin Icon" class="app-icon">
             <h1>Violin Ear Trainer</h1>
             <p class="instructions">
-                Welcome! This app will help you learn to distinguish violin notes in the first position by ear.
-                <br><br>
-                Click 'Start Practice', listen to the random note, and click on the note you think it is on the fingerboard.
+                Learn to distinguish violin notes by ear. Click 'Start Practice' to begin.
             </p>
             <div id="high-scores">
                 <h2>Best Scores</h2>
@@ -21,22 +30,24 @@
                     <p>No scores recorded yet.</p>
                 </div>
             </div>
-            <button id="start-btn" class="btn">Start Practice</button>
+            <button id="start-btn" class="btn btn-raised">Start Practice</button>
         </div>
 
         <div id="practice-screen" class="screen">
-            <h1>Violin Ear Trainer</h1>
-            <div id="score-display">Score: 0 / 0</div>
+            <div class="toolbar">
+                <h1>Practice</h1>
+                <div id="score-display">0 / 0</div>
+            </div>
             
             <div class="practice-area">
+                <div id="message-area">Press the button to start</div>
                 <div id="fingerboard">
                     </div>
-                <div id="message-area"></div>
                 <div id="controls">
-                    <button id="play-random-note-btn" class="btn">Play Random Note</button>
-                    <button id="play-reference-note-btn" class="btn">Play Reference G (G3)</button>
-                    <button id="continue-btn" class="btn" style="display: none;">Continue</button>
-                    <button id="stop-btn" class="btn" style="display: none;">Stop</button>
+                    <button id="play-random-note-btn" class="btn btn-flat">Play Note</button>
+                    <button id="play-reference-note-btn" class="btn btn-flat">Reference G</button>
+                    <button id="continue-btn" class="btn btn-raised" style="display: none;">Continue</button>
+                    <button id="stop-btn" class="btn btn-flat" style="display: none;">Stop</button>
                 </div>
             </div>
         </div>
