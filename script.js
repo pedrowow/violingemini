@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- CORRECTED FINGERBOARD DATA AND NOTE LISTS ---
+    // --- FINGERBOARD DATA AND NOTE LISTS ---
     const fingerboardLayout = [
         { label: 'Open string', notes: { G: 'G3', D: 'D4', A: 'A4', E: 'E5' } },
         { label: '1st finger', notes: { G: 'A3', D: 'E4', A: 'B4', E: 'F5' } },
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const allNotes = [...new Set(fingerboardLayout.flatMap(row => Object.values(row.notes)))];
     
-    // Corrected map with no duplicate keys
     const noteFrequencies = {
         'G3': 196.00, 'A3': 220.00, 'B3': 246.94, 'C4': 261.63, 'D4': 293.66,
         'E4': 329.63, 'F#4': 369.99, 'G4': 392.00, 'A4': 440.00, 'B4': 493.88, 
@@ -86,10 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- UI & Game Logic ---
-    // ROBUST FINGERBOARD CREATION
     function createFingerboard() {
         try {
-            fingerboard.innerHTML = ''; // Clear previous content
+            fingerboard.innerHTML = ''; 
             const strings = ['G', 'D', 'A', 'E'];
             
             fingerboardLayout.forEach(row => {
@@ -102,7 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         const noteCircle = document.createElement('div');
                         noteCircle.className = 'note-circle';
                         noteCircle.dataset.note = noteName;
-                        noteCircle.textContent = noteName.replace(/[0-9#]/g, '');
+                        
+                        // --- THIS IS THE MODIFIED LINE ---
+                        // It now removes only numbers, keeping the '#' symbol.
+                        noteCircle.textContent = noteName.replace(/[0-9]/g, '');
+                        
                         if (row.label === 'Open string') {
                             noteCircle.classList.add('open-string');
                         }
@@ -126,4 +128,110 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.note-circle').forEach(c => c.classList.remove('correct', 'incorrect', 'review-mode'));
         awaitingAnswer = true;
         currentRandomNote = allNotes[Math.floor(Math.random() * allNotes.length)];
-        messageArea.textContent =
+        messageArea.textContent = 'Listen...';
+        setTimeout(() => {
+            playSound(currentRandomNote);
+            messageArea.textContent = 'What note was that?';
+        }, 500);
+        playRandomNoteBtn.textContent = 'Replay Note';
+        playRandomNoteBtn.style.display = 'inline-block';
+        playReferenceBtn.style.display = 'inline-block';
+        continueBtn.style.display = 'none';
+        stopBtn.style.display = 'none';
+    }
+
+    function handleAnswer(selectedNote) {
+        if (!awaitingAnswer) return;
+        awaitingAnswer = false;
+        lastSelectedNote = selectedNote;
+        totalPlayed++;
+        const selectedCircles = fingerboard.querySelectorAll(`[data-note="${selectedNote}"]`);
+        const correctCircles = fingerboard.querySelectorAll(`[data-note="${currentRandomNote}"]`);
+
+        if (selectedNote === currentRandomNote) {
+            correctAnswers++;
+            messageArea.style.color = 'var(--correct-color)';
+            messageArea.textContent = 'Correct!';
+            correctCircles.forEach(c => c.classList.add('correct', 'review-mode'));
+        } else {
+            messageArea.style.color = 'var(--incorrect-color)';
+            messageArea.textContent = `Incorrect. The correct note was ${currentRandomNote}.`;
+            selectedCircles.forEach(c => c.classList.add('incorrect', 'review-mode'));
+            correctCircles.forEach(c => c.classList.add('correct', 'review-mode'));
+        }
+        scoreDisplay.textContent = `${correctAnswers} / ${totalPlayed}`;
+        continueBtn.style.display = 'inline-block';
+        stopBtn.style.display = 'inline-block';
+    }
+
+    function displayHighScores() {
+        const highScores = JSON.parse(localStorage.getItem('violinHighScores')) || [];
+        scoreList.innerHTML = '';
+        if (highScores.length === 0) {
+            scoreList.innerHTML = '<p>No scores recorded yet.</p>';
+            return;
+        }
+        const list = document.createElement('ul');
+        highScores.forEach(record => {
+            const item = document.createElement('li');
+            const percentage = record.score.toFixed(0);
+            const date = new Date(record.date).toLocaleDateString('en-GB');
+            item.innerHTML = `<span class="score-percent">${percentage}% (${record.correct}/${record.total})</span><span class="score-date">${date}</span>`;
+            list.appendChild(item);
+        });
+        scoreList.appendChild(list);
+    }
+    
+    function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.getBoundingClientRect().left - diameter / 2}px`;
+        circle.style.top = `${event.clientY - button.getBoundingClientRect().top - diameter / 2}px`;
+        circle.classList.add("ripple");
+        button.querySelector(".ripple")?.remove();
+        button.appendChild(circle);
+    }
+
+    // --- Event Listeners ---
+    document.querySelectorAll('.btn').forEach(b => b.addEventListener('click', createRipple));
+    startBtn.addEventListener('click', () => {
+        initAudioContext();
+        loadAllAudio();
+        startScreen.classList.remove('active');
+        practiceScreen.classList.add('active');
+    });
+    playRandomNoteBtn.addEventListener('click', () => {
+        if (currentRandomNote) playSound(currentRandomNote);
+        else startNewRound();
+    });
+    playReferenceBtn.addEventListener('click', () => playSound('G3'));
+    fingerboard.addEventListener('click', e => {
+        if (e.target.classList.contains('note-circle')) {
+            const note = e.target.dataset.note;
+            if (awaitingAnswer) handleAnswer(note);
+            else if (e.target.classList.contains('review-mode')) playSound(note);
+        }
+    });
+    continueBtn.addEventListener('click', startNewRound);
+    stopBtn.addEventListener('click', () => {
+        const score = totalPlayed > 0 ? (correctAnswers / totalPlayed) * 100 : 0;
+        const record = { score, correct: correctAnswers, total: totalPlayed, date: new Date().toISOString() };
+        const highScores = JSON.parse(localStorage.getItem('violinHighScores')) || [];
+        highScores.push(record);
+        highScores.sort((a, b) => b.score - a.score || b.total - a.total);
+        localStorage.setItem('violinHighScores', JSON.stringify(highScores.slice(0, 3)));
+        correctAnswers = 0;
+        totalPlayed = 0;
+        currentRandomNote = null;
+        scoreDisplay.textContent = '0 / 0';
+        displayHighScores();
+        practiceScreen.classList.remove('active');
+        startScreen.classList.add('active');
+    });
+
+    // --- Initial Setup ---
+    createFingerboard();
+    displayHighScores();
+});
