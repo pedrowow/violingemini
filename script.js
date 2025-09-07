@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FINGERBOARD DATA AND NOTE LISTS ---
     const fingerboardLayout = [
-        { label: 'Open string', notes: { G: 'G3', D: 'D4', A: 'A4', E: 'E5' } },
-        { label: '1st finger', notes: { G: 'A3', D: 'E4', A: 'B4', E: 'F5' } },
-        { label: '1st finger high', notes: { E: 'F#5' } },
-        { label: '2nd finger', notes: { G: 'B3', A: 'C5', E: 'G5' } },
-        { label: '2nd finger high', notes: { D: 'F#4', A: 'C#5', E: 'G#5' } },
-        { label: '3rd finger', notes: { G: 'C4', D: 'G4', A: 'D5', E: 'A5' } },
-        { label: '4th finger', notes: { G: 'D4', D: 'A4', A: 'E5', E: 'B5' } }
+        { label: 'Open', notes: { G: 'G3', D: 'D4', A: 'A4', E: 'E5' } },
+        { label: '1st', notes: { G: 'A3', D: 'E4', A: 'B4', E: 'F5' } },
+        { label: '1st high', notes: { E: 'F#5' } },
+        { label: '2nd', notes: { G: 'B3', A: 'C5', E: 'G5' } },
+        { label: '2nd high', notes: { D: 'F#4', A: 'C#5', E: 'G#5' } },
+        { label: '3rd', notes: { G: 'C4', D: 'G4', A: 'D5', E: 'A5' } },
+        { label: '4th', notes: { G: 'D4', D: 'A4', A: 'E5', E: 'B5' } }
     ];
 
     const allNotes = [...new Set(fingerboardLayout.flatMap(row => Object.values(row.notes)))];
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentRandomNote) playSound(currentRandomNote);
         else startNewRound();
     });
-    playReferenceBtn.addEventListener('click', () => playSound('G3'));
+    playReferenceBtn.addEventListener('click', () => playSound('C4'));
     fingerboard.addEventListener('click', e => {
         if (e.target.classList.contains('note-circle')) {
             const note = e.target.dataset.note;
