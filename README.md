@@ -5,9 +5,11 @@ Requirements given:
 Aim: learn to distinguish violin notes by ear
 User profile: violin student, violin first position
 Environment: webpage on GitHub
+
 Pre-requisites: 
   .wav files to be loaded for each of the notes in each of the strings.
   Files are uploaded in the scientific notation following the example formats 'violin-c4.wav' for C4 and 'violin-cs4.wav' for C#
+
 UI & logic:
   An opening screen is presented to the user with the app title, instructions, and a button to start practice. The best three scores will be shown (see instruction below for calculation of score)
   A new screen is shown with the app title and a fingerboard is presented to the user, with a circle above each of the notes in each of the strings
