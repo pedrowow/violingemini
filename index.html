@@ -4,47 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Violin Ear Trainer</title>
-    
+
     <link rel="icon" href="violin-icon.png" type="image/png">
     <link rel="manifest" href="manifest.json">
-    
-    <meta name="theme-color" content="#3f51b5">
+
+    <meta name="theme-color" content="#171210">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container card">
+
         <div id="start-screen" class="screen active">
-            <img src="violin-icon.png" alt="Violin Icon" class="app-icon">
+            <p class="eyebrow">Ear training</p>
             <h1>Violin Ear Trainer</h1>
             <p class="instructions">
-                Learn to distinguish violin notes by ear. Click 'Start Practice' to begin.
+                Hear a note, find it on the fingerboard.
             </p>
+
+            <div id="position-select" role="group" aria-label="Position">
+                <button class="position-btn" data-position="first">First position</button>
+                <button class="position-btn" data-position="second">Second position</button>
+            </div>
+
             <div id="high-scores">
-                <h2>Best Scores</h2>
+                <h2>Best scores</h2>
                 <div id="score-list">
-                    <p>No scores recorded yet.</p>
+                    <p class="empty-note">No scores recorded yet.</p>
                 </div>
             </div>
-            <button id="start-btn" class="btn btn-raised">Start Practice</button>
+
+            <div id="note-stats">
+                <div class="panel-head">
+                    <h2>Notes to work on</h2>
+                    <button id="reset-stats-btn" class="link-btn" style="display:none;">Reset</button>
+                </div>
+                <div id="note-stats-list">
+                    <p class="empty-note">Play a few rounds to see which notes need work.</p>
+                </div>
+            </div>
+
+            <button id="start-btn" class="btn btn-raised">Start practice</button>
         </div>
 
         <div id="practice-screen" class="screen">
             <div class="toolbar">
-                <h1>Practice</h1>
+                <div>
+                    <h1>Practice</h1>
+                    <span id="position-label" class="position-tag">First position</span>
+                </div>
                 <div id="score-display">0 / 0</div>
             </div>
-            
+
             <div class="practice-area">
-                <div id="message-area">Press the button to start</div>
-                <div id="fingerboard">
-                    </div>
+                <div id="message-area">Press Play note to begin</div>
+                <div id="fingerboard"></div>
                 <div id="controls">
-                    <button id="play-random-note-btn" class="btn btn-flat">Play Note</button>
+                    <button id="play-random-note-btn" class="btn btn-flat">Play note</button>
                     <button id="play-reference-note-btn" class="btn btn-flat">Reference C4</button>
                     <button id="continue-btn" class="btn btn-raised" style="display: none;">Continue</button>
                     <button id="stop-btn" class="btn btn-flat" style="display: none;">Stop</button>
