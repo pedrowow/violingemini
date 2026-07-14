@@ -5,7 +5,7 @@
     --aqua-soft: rgba(91, 231, 237, 0.22);
     --page: #e9fbfc;             /* page background */
     --card: #ffffff;
-    --board: #1b2226;            /* the one dark element: the ebony fingerboard */
+    --board: #37535b;            /* slate-teal fingerboard, lighter than ebony */
     --ink: #113b40;              /* primary text, deep teal-slate */
     --ink-dim: #5c7d80;          /* secondary text */
     --string: #cfd8d9;
@@ -234,7 +234,7 @@ h2 {
     color: var(--ink-dim);
 }
 
-/* --- Fingerboard: deliberately dark, like the real thing --- */
+/* --- Fingerboard: slate-teal, dark enough for contrast --- */
 #fingerboard {
     display: grid;
     grid-template-columns: repeat(4, 1fr) minmax(64px, auto);
@@ -242,7 +242,7 @@ h2 {
     align-items: center;
     margin-bottom: 22px;
     background:
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.2)),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.12)),
         var(--board);
     border: 1px solid rgba(14, 154, 163, 0.2);
     padding: 14px 12px 18px;
@@ -297,7 +297,7 @@ h2 {
     z-index: 1;
     width: 44px;
     height: 44px;
-    background: radial-gradient(circle at 35% 30%, #39454b, #232c31);
+    background: radial-gradient(circle at 35% 30%, #4d6a72, #3a565e);
     border: 2px solid rgba(91, 231, 237, 0.55);
     color: #eef7f8;
     border-radius: 50%;
@@ -344,7 +344,7 @@ h2 {
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #9fb3b5;
+    color: #c7d8da;
     padding-left: 12px;
     white-space: nowrap;
 }
