@@ -3,8 +3,8 @@
     "short_name": "Violin Trainer",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#eceff1",
-    "theme_color": "#3f51b5",
+    "background_color": "#e9fbfc",
+    "theme_color": "#5be7ed",
     "description": "An app to help learn violin notes by ear.",
     "icons": [
         {
